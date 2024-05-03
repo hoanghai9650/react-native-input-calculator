@@ -10,12 +10,20 @@ npm install react-native-input-calculator
 
 ## Usage
 
+```
+Base on React Native TextInput, just change keyboard view to calculator keyboard
+```
+
 ```js
-import { multiply } from 'react-native-input-calculator';
+import InputCalculator from 'react-native-input-calculator';
 
 // ...
 
-const result = await multiply(3, 7);
+<InputCalculator
+  placeholder="Enter a number"
+  value={value}
+  onChangeText={(text) => setValue(text)}
+/>;
 ```
 
 ## Contributing
@@ -25,7 +33,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
