@@ -24,7 +24,7 @@ export const Keys = {
 };
 
 const InputCalculator: React.FC<InputCalculatorProps> = (props) => {
-  const [isFocus, setIsFocus] = useState(false);
+  //   const [isFocus, setIsFocus] = useState(false);
   const [lastNativeText, setLastNativeText] = useState(props.value);
   const inputRef = useRef<TextInput>(null);
 
@@ -66,11 +66,11 @@ const InputCalculator: React.FC<InputCalculatorProps> = (props) => {
     }
   };
 
-  const focus = () => {
-    if (inputRef.current && typeof inputRef.current.focus === 'function') {
-      inputRef.current.focus();
-    }
-  };
+  //   const focus = () => {
+  //     if (inputRef.current && typeof inputRef.current.focus === 'function') {
+  //       inputRef.current.focus();
+  //     }
+  //   };
 
   const getText = () => {
     if (typeof props.value === 'string') {
@@ -85,7 +85,7 @@ const InputCalculator: React.FC<InputCalculatorProps> = (props) => {
   };
 
   const onFocus = (event: any) => {
-    setIsFocus(true);
+    // setIsFocus(true);
     if (props.onFocus) {
       props.onFocus(event);
     }
@@ -95,7 +95,7 @@ const InputCalculator: React.FC<InputCalculatorProps> = (props) => {
   };
 
   const onBlur = (event: any) => {
-    setIsFocus(false);
+    // setIsFocus(false);
     if (props.onBlur) {
       props.onBlur(event);
     }
