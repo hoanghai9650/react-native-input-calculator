@@ -21,8 +21,9 @@ export default function App() {
         <InputCalculator
           placeholder="Enter a number"
           value={value}
-          onChangeText={(text) => setValue(text)}
-          onBlur={() => console.log('onBlur')}
+          onChangeText={(text) => {
+            setValue(text);
+          }}
         />
       </TouchableWithoutFeedback>
       <TextInput
