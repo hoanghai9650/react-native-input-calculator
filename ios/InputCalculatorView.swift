@@ -55,7 +55,7 @@ class TextInputCalculator: RCTSinglelineTextInputView, CustomKeyboardDelegate {
     func onBackSpace() {
         value = value?.dropLast().description
         dispatchUI {
-            if let view = CalculatorKeyboardModule.editingTextField,
+            if let view = InputCalculatorKeyboardModule.editingTextField,
                let range = view.selectedTextRange,
                let fromRange = view.position(from: range.start, offset: -1),
                let newRange = view.textRange(from: fromRange, to: range.start)
@@ -107,47 +107,12 @@ class TextInputCalculator: RCTSinglelineTextInputView, CustomKeyboardDelegate {
             textField.keyboardType = UIKeyboardType.default
         }
         textField?.textInputDelegate = self
-
-//        if let value = value {
-//            text = value
-//            let attributedString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
-//            print("init \(value)")
-//            textField?.attributedText = attributedString
-//        }
-
-//        textField.addTarget(self, action: #selector(textEditingChanged(_:)), for: .)
     }
-
-//    override func reactSetFrame(_ frame: CGRect) {
-//        super.reactSetFrame(frame)
-//        textField?.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-//    }
 
     override func textInputShouldBeginEditing() -> Bool {
-        CalculatorKeyboardModule.editingTextField = backedTextInputView as? RCTUITextField
+        InputCalculatorKeyboardModule.editingTextField = backedTextInputView as? RCTUITextField
         return true
     }
-
-//    override func didSetProps(_ changedProps: [String]!) {
-//        super.didSetProps(changedProps)
-//
-//        if let value = value {
-//            if let textField = backedTextInputView as? UITextField {
-//                if textField.text == nil || textField.text == "" {
-//                    textField.insertText(value)
-//                    if let bridge = bridge {
-//                        bridge.eventDispatcher().sendTextEvent(with: .change, reactTag: reactTag, text: value, key: "init", eventCount: 1)
-//                    }
-//                }
-//                else {
-//                    textField.text = value
-//                    if let bridge = bridge {
-//                        bridge.eventDispatcher().sendTextEvent(with: .change, reactTag: reactTag, text: value, key: "init", eventCount: 1)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 
 class CalculatorKeyboardView: UIView {
@@ -174,6 +139,9 @@ class CalculatorKeyboardView: UIView {
     }
 
     private func setupUI() {
+        let remove_icon = URL(string: "https://img.mservice.com.vn/app/img/kits/new_backspace_icon.png")
+        let tintColor = UIColor.black
+        let newSize = CGSize(width: 24, height: 24)
         let SEPARATOR_WIDTH: CGFloat = 3
 
         let columns: CGFloat = 4
@@ -219,7 +187,18 @@ class CalculatorKeyboardView: UIView {
 
                 if key == "back" {
                     button.setTitle("", for: .normal)
-                    button.setImage(UIImage(named: "back.png")?.withRenderingMode(.alwaysOriginal), for: .normal)
+                    button.sd_setImage(with: remove_icon, for: .normal, placeholderImage: nil) { image, _, _, _ in
+                        // Resize the image
+                        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+                        image?.draw(in: CGRect(origin: .zero, size: newSize))
+                        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+
+                        // Set the tint color
+                        let tintedImage = newImage?.withRenderingMode(.alwaysTemplate)
+                        button.setImage(tintedImage, for: .normal)
+                        button.tintColor = tintColor
+                    }
                 }
 
                 if specialKeys.contains(key) {
@@ -257,12 +236,12 @@ public func dispatchUI(_ closure: @escaping () -> Void) {
     }
 }
 
-@objc(CalculatorKeyboardModule)
-class CalculatorKeyboardModule: NSObject, RCTBridgeModule {
+@objc(InputCalculatorKeyboardModule)
+class InputCalculatorKeyboardModule: NSObject, RCTBridgeModule {
     static var editingTextField: RCTUITextField?
 
     static func moduleName() -> String! {
-        return "CalculatorKeyboardModule"
+        return "InputCalculatorKeyboardModule"
     }
 
     static func requiresMainQueueSetup() -> Bool {
@@ -271,7 +250,7 @@ class CalculatorKeyboardModule: NSObject, RCTBridgeModule {
 
     @objc func insertText(_ text: String) {
         dispatchUI {
-            if let view = CalculatorKeyboardModule.editingTextField,
+            if let view = InputCalculatorKeyboardModule.editingTextField,
                let range = view.selectedTextRange,
                let fromRange = view.position(from: range.start, offset: -1),
                var newRange = view.textRange(from: fromRange, to: range.start),
@@ -289,7 +268,7 @@ class CalculatorKeyboardModule: NSObject, RCTBridgeModule {
                     view.replace(range, withText: text)
                 }
             }
-            else if let view = CalculatorKeyboardModule.editingTextField,
+            else if let view = InputCalculatorKeyboardModule.editingTextField,
                     let range = view.selectedTextRange
             {
                 view.replace(range, withText: text)
@@ -299,7 +278,7 @@ class CalculatorKeyboardModule: NSObject, RCTBridgeModule {
 
     @objc func backSpace() {
         dispatchUI {
-            if let view = CalculatorKeyboardModule.editingTextField,
+            if let view = InputCalculatorKeyboardModule.editingTextField,
                let range = view.selectedTextRange,
                let fromRange = view.position(from: range.start, offset: -1),
                var newRange = view.textRange(from: fromRange, to: range.start)
@@ -321,7 +300,7 @@ class CalculatorKeyboardModule: NSObject, RCTBridgeModule {
 
     @objc func doDelete() {
         dispatchUI {
-            if let view = CalculatorKeyboardModule.editingTextField {
+            if let view = InputCalculatorKeyboardModule.editingTextField {
                 if let range = view.selectedTextRange {
                     if view.compare(range.start, to: range.end).rawValue == 0 {
                         if let toRange = view.position(from: range.start, offset: 1) {

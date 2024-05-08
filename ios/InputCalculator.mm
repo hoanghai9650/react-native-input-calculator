@@ -52,8 +52,3 @@ RCT_EXPORT_SHADOW_PROPERTY(onContentSizeChange, RCTBubblingEventBlock)
 
 @end
 
-@interface RCT_EXTERN_MODULE(CalculatorKeyboardModule, RCTViewManager)
-RCT_EXTERN_METHOD(insertText:(NSString*)text)
-RCT_EXTERN_METHOD(backSpace)
-RCT_EXTERN_METHOD(doDelete)
-@end
