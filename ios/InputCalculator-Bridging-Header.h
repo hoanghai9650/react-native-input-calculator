@@ -5,6 +5,9 @@
 #import <React/RCTUITextField.h>
 #import <React/RCTRootView.h>
 #import <React/RCTImageURLLoaderWithAttribution.h>
+#import <SDWebImage/SDAnimatedImageView+WebCache.h>
+#import <SDWebImage/SDWebImageDownloader.h>
+#import <SDWebImage/SDWebImage.h>
 
 @interface Calculator : NSObject <RCTBridgeModule>
 

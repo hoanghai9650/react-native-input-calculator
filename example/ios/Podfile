@@ -27,7 +27,7 @@ end
 
 target 'InputCalculatorExample' do
   config = use_native_modules!
-
+  pod 'SDWebImage', '~> 5.18.0'
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
@@ -39,7 +39,6 @@ target 'InputCalculatorExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
   
-  pod 'SDWebImage'
 
   target 'InputCalculatorExampleTests' do
     inherit! :complete
